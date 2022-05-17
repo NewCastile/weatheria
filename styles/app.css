@@ -1,0 +1,32 @@
+body,
+html {
+	margin: 0 auto;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
+	color: #292929;
+}
+
+input {
+	all: unset;
+}
+
+/*Combobox Styles*/
+.combobox-list {
+	border-radius: 0rem 1.5rem 1.5rem 1.5rem;
+	background-color: rgba(0, 0, 0, 80%);
+	color: white;
+}
+
+@supports (backdrop-filter: blur(1rem)) {
+	.combobox-list {
+		backdrop-filter: blur(1rem);
+		background-color: rgba(250, 250, 250, 10%);
+		color: black;
+	}
+}
+
+[data-reach-combobox-option][data-highlighted] strong {
+	font-size: 1.25rem;
+}
