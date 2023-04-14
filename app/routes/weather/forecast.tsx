@@ -6,7 +6,7 @@ import { json, LoaderFunction, MetaFunction } from "remix";
 import { IForecastLoaderData } from "~/types";
 import WeatherBox from "~/components/Weather/WeatherBox";
 import ComboBox from "~/components/ComboBox";
-import ForecastGrid from "~/components/Forecast.tsx";
+import ForecastGrid from "~/components/Forecast";
 import { WeatherThemeContext } from "~/root";
 
 import { defaultTheme, themes } from "../../themes";
@@ -133,7 +133,7 @@ export default function Forecast() {
       justifyContent={{ base: "start", sm: "center", xl: "center" }}
       minW={"180px"}
       pb={"8"}
-      pt={{ base: "24", md: "0" }}
+      pt={{ base: "24", lg: "0" }}
       px={"10"}
       w={{ base: "full", lg: "50%" }}
     >
