@@ -1,5 +1,5 @@
 import { useLoaderData, useTransition } from "@remix-run/react";
-import { VStack, Text, Box, useMediaQuery } from "@chakra-ui/react";
+import { VStack, Text, Box, useMediaQuery, Flex } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
 import { json, LoaderFunction, MetaFunction } from "remix";
 
@@ -56,7 +56,7 @@ export function ErrorBoundary({ error }: { error: any }) {
       display={"flex"}
       endColorToken={defaultTheme.theme.colors["primary"]}
       flexDir={"column"}
-      h={"100vh"}
+      h={"full"}
       isLoading={transition.state !== "idle"}
       justifyContent={"center"}
       minW={"180px"}
@@ -126,10 +126,10 @@ export default function Forecast() {
   }, [weather, transition.state]);
 
   return (
-    <VStack
+    <Flex
       bgColor={{ base: "transparent", lg: "secondary" }}
       className={"forecast"}
-      h={"full"}
+      h={{ base: "max-content", lg: "full" }}
       justifyContent={{ base: "start", sm: "center", xl: "center" }}
       minW={"180px"}
       pb={"8"}
@@ -161,6 +161,6 @@ export default function Forecast() {
           />
         )}
       </VStack>
-    </VStack>
+    </Flex>
   );
 }

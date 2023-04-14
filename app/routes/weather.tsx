@@ -50,8 +50,12 @@ export default function Weather() {
       bgPos={"center"}
       bgRepeat={"no-repeat"}
       bgSize={"cover"}
-      flexDir={{ base: "column", md: "row" }}
-      h={isSmallerThan600 ? { base: "auto", xl: "full" } : { base: "auto", md: "full" }}
+      flexDir={"row"}
+      h={
+        isSmallerThan600
+          ? { base: "auto", xl: "full" }
+          : { base: "auto", md: "max-content", lg: "full" }
+      }
       justifyContent={"center"}
       minH={"full"}
       spacing={0}
@@ -84,7 +88,7 @@ export default function Weather() {
         justify={"center"}
         position={"relative"}
         spacing={0}
-        w={{ base: "full", md: "50%" }}
+        w={"50%"}
       >
         <ComboBox isSubmitting={transition.state !== "idle"} />
       </VStack>
