@@ -1,6 +1,6 @@
-import { LoaderFunction } from "remix";
+import { LoaderFunction } from "@remix-run/server-runtime";
 
-import { ISuggestion } from "~/types";
+import { ISuggestion } from "../types";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);

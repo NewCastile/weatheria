@@ -1,11 +1,17 @@
-import { VStack, Text } from "@chakra-ui/react";
-import { useTransition } from "@remix-run/react";
+/** @format */
 
-import ComboBox from "~/components/ComboBox";
-import { defaultTheme } from "~/themes";
+import { Text, VStack } from "@chakra-ui/react";
+import { useNavigation } from "@remix-run/react";
+
+import HUIAsyncComboBox from "../components/HUIComboBox";
+import { defaultTheme } from "../themes";
+
+export function ErrorBoundary() {
+  return null;
+}
 
 export default function WeatherIndex() {
-  const transition = useTransition();
+  const navigation = useNavigation();
 
   return (
     <VStack
@@ -18,7 +24,7 @@ export default function WeatherIndex() {
       px={{ base: "2", sm: "10" }}
       w={{ base: "full", lg: "50%" }}
     >
-      <VStack justifyContent={"center"} minW={"250px"} spacing={"6"} w={"full"} zIndex={"modal"}>
+      <VStack justifyContent={"center"} minW={"180px"} spacing={"6"} w={"full"} zIndex={"modal"}>
         <VStack color={"white"} spacing={"-0.5"}>
           <Text
             as={"h1"}
@@ -48,7 +54,7 @@ export default function WeatherIndex() {
         w={{ base: "full", md: "85%" }}
         zIndex={"modal"}
       >
-        <ComboBox endColorToken={"accent"} isSubmitting={transition.state !== "idle"} />
+        <HUIAsyncComboBox endColorToken={"accent"} isSubmitting={navigation.state !== "idle"} />
       </VStack>
     </VStack>
   );

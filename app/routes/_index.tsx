@@ -1,18 +1,27 @@
-import { useTransition } from "@remix-run/react";
-import { VStack, useMediaQuery, Stack, Fade, Text } from "@chakra-ui/react";
+import { Fade, Stack, Text, VStack, useMediaQuery } from "@chakra-ui/react";
+import { useNavigation } from "@remix-run/react";
+import { useContext, useEffect } from "react";
 
-import ComboBox from "~/components/ComboBox";
-import WeatherBadge from "~/components/Weather/WeatherBadge";
-import MapIcon from "~/components/Icons/MapIcon";
-import { defaultTheme } from "~/themes";
+import HUIAsyncComboBox from "../components/HUIComboBox";
+import MapIcon from "../components/Icons/MapIcon";
+import WeatherBadge from "../components/Weather/WeatherBadge";
+import { WeatherThemeContext } from "../root";
+import { defaultTheme } from "../themes";
 
 export function ErrorBoundary() {
   return null;
 }
 
 export default function Weather() {
-  const transition = useTransition();
+  const navigation = useNavigation();
   const [isSmallerThan600] = useMediaQuery("(max-height: 600px)");
+  const { setTheme: setCurrentTheme } = useContext(WeatherThemeContext);
+
+  useEffect(() => {
+    if (!navigation.location) {
+      setCurrentTheme(defaultTheme);
+    }
+  }, [navigation.location, setCurrentTheme]);
 
   return (
     <Stack
@@ -27,9 +36,9 @@ export default function Weather() {
       minH={"full"}
       spacing={0}
     >
-      <WeatherBadge isLoading={transition.state !== "idle"}>
+      <WeatherBadge isLoading={navigation.state !== "idle"}>
         <MapIcon />
-        <Fade in={transition.state === "idle"}>
+        <Fade in={navigation.state === "idle"}>
           <Text
             as={"small"}
             color={"black"}
@@ -53,7 +62,10 @@ export default function Weather() {
         spacing={0}
         w={{ base: "full", md: "50%" }}
       >
-        <ComboBox isSubmitting={transition.state !== "idle"} />
+        <HUIAsyncComboBox
+          endColorToken={defaultTheme.theme.colors["accent"]}
+          isSubmitting={navigation.state !== "idle"}
+        />
       </VStack>
       <VStack
         bgColor={"transparent"}
@@ -65,7 +77,7 @@ export default function Weather() {
         px={{ base: "2", sm: "10" }}
         w={{ base: "full", lg: "50%" }}
       >
-        <VStack justifyContent={"center"} minW={"250px"} spacing={"6"} w={"full"} zIndex={"modal"}>
+        <VStack justifyContent={"center"} minW={"180px"} spacing={"6"} w={"full"} zIndex={"modal"}>
           <VStack color={"white"} spacing={"-0.5"}>
             <Text
               as={"h1"}
@@ -95,7 +107,10 @@ export default function Weather() {
           w={{ base: "full", md: "85%" }}
           zIndex={"modal"}
         >
-          <ComboBox endColorToken={"accent"} isSubmitting={transition.state !== "idle"} />
+          <HUIAsyncComboBox
+            endColorToken={defaultTheme.theme.colors["accent"]}
+            isSubmitting={navigation.state !== "idle"}
+          />
         </VStack>
       </VStack>
     </Stack>
