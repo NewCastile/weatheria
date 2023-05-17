@@ -1,8 +1,10 @@
-import { VStack, Text, Image, HStack } from "@chakra-ui/react";
+import { HStack, Text, VStack } from "@chakra-ui/react";
 
-import WeatherBox from "~/components/Weather/WeatherBox";
-import { formatDate } from "~/helpers/formatDate";
-import { IHourForecast } from "~/types";
+import { formatDate } from "../../helpers/formatDate";
+import { IHourForecast } from "../../types";
+
+import ForecastWeatherBox from "./ForecastWeatherBox";
+import ForecastWeatherIcon from "./ForecastWeatherIcon";
 
 export default function FirstHourForecast({
   day,
@@ -34,12 +36,7 @@ export default function FirstHourForecast({
             >
               {day.weather[0].main}
             </Text>
-            <Image
-              alt="weather-icon"
-              h={"8"}
-              src={`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
-              w={"8"}
-            />
+            <ForecastWeatherIcon forecast={day} />
           </HStack>
           <Text as={"small"} casing={"uppercase"} fontWeight={"medium"}>
             {day.weather[0].description}
@@ -90,28 +87,7 @@ export default function FirstHourForecast({
           </Text>
         </VStack>
       </HStack>
-      <WeatherBox
-        borderRadius={"lg"}
-        endColorToken={"primary"}
-        h={"full"}
-        isLoading={isLoading}
-        left={"0"}
-        position={"absolute"}
-        top={"0"}
-        w={"full"}
-        zIndex={"-10"}
-      />
-      <WeatherBox
-        borderRadius={"lg"}
-        endColorToken={"accent"}
-        h={"full"}
-        isLoading={isLoading}
-        left={"2"}
-        position={"absolute"}
-        top={"2"}
-        w={"full"}
-        zIndex={"-20"}
-      />
+      <ForecastWeatherBox {...{ isLoading }} />
     </>
   );
 }

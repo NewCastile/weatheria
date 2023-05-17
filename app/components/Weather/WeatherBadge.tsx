@@ -1,6 +1,11 @@
+import { ReactElement } from "react";
+
 import WeatherBox from "./WeatherBox";
 
-const WeatherBadge: React.FC<{ isLoading: boolean }> = ({ isLoading, children }) => {
+const WeatherBadge: React.FC<{ isLoading: boolean; children: ReactElement | ReactElement[] }> = ({
+  isLoading,
+  children,
+}) => {
   return (
     <WeatherBox
       alignItems={"center"}
