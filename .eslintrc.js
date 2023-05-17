@@ -4,17 +4,40 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    node: true,
   },
-  extends: ["plugin:react/recommended", "plugin:prettier/recommended"],
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended",
+  ],
+  overrides: [
+    {
+      files: ["**/*.cjs"],
+      env: {
+        node: true,
+      },
+    },
+  ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: "latest",
-    sourceType: "module",
   },
-  plugins: ["react", "prettier", "import", "@typescript-eslint"],
+  plugins: ["react", "react-hooks", "@typescript-eslint", "import", "prettier"],
+  settings: {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"],
+    },
+  },
   rules: {
     "no-console": "warn",
     "react/prop-types": "off",
@@ -39,8 +62,19 @@ module.exports = {
         args: "after-used",
         ignoreRestSiblings: false,
         argsIgnorePattern: "^_.*?$",
+        varsIgnorePattern: "_.*?$",
       },
     ],
+    "sort-imports": [
+      "warn",
+      {
+        ignoreCase: false,
+        ignoreDeclarationSort: true,
+        ignoreMemberSort: false,
+        memberSyntaxSortOrder: ["none", "all", "multiple", "single"],
+      },
+    ],
+    "import/no-unresolved": "error",
     "import/order": [
       "warn",
       {
@@ -53,6 +87,10 @@ module.exports = {
           },
         ],
         "newlines-between": "always",
+        alphabetize: {
+          order: "asc",
+          caseInsensitive: true,
+        },
       },
     ],
     "react/self-closing-comp": "warn",
