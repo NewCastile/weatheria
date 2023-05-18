@@ -12,8 +12,9 @@ import {
 } from "@chakra-ui/react";
 import { Combobox as HUIComboBox } from "@headlessui/react";
 import { Form, useFetcher } from "@remix-run/react";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
+import { suggestionToString } from "../../helpers/suggestionToString";
 import { loader } from "../../routes/search-city";
 import { ISuggestion } from "../../types";
 
@@ -34,8 +35,16 @@ export default function HUIAsyncComboBox({
 }) {
   const cities = useFetcher<typeof loader>();
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState<string>("");
+  const [selectedCity, setSelectedCity] = useState<ISuggestion>({ country: "", name: "" });
   const [isSmallerThan300] = useMediaQuery("(max-width: 300px)");
+  const selectedCityQuery = useMemo(() => {
+    return suggestionToString(selectedCity, "ASC");
+  }, [selectedCity]);
+
+  useEffect(() => {
+    setQuery(selectedCityQuery);
+  }, [selectedCityQuery]);
 
   return (
     <HUIComboboxContainer {...{ isSubmitting, endColorToken }}>
@@ -45,7 +54,7 @@ export default function HUIAsyncComboBox({
         method={"GET"}
         style={{ width: "100%" }}
       >
-        <HUIComboBox>
+        <HUIComboBox value={selectedCity} onChange={setSelectedCity}>
           <HUIComboBoxInput
             placeholder={`Type a city ${isSmallerThan300 ? "" : "eg: Lancaster"}`}
             onChange={(event) => {
@@ -53,9 +62,9 @@ export default function HUIAsyncComboBox({
               cities.submit(event.target.form);
             }}
           />
-          {cities.data ? (
-            <>
-              {cities.data.error ? null : cities.data.length ? (
+          <>
+            {cities.data ? (
+              cities.data.error ? null : cities.data.length ? (
                 <HUIComboBoxOptions listStyleType={"none"} w={{ base: "max-content", sm: "full" }}>
                   {cities.data.map((city: ISuggestion, cityIdx: number) => (
                     <HUIComboBoxOption key={cityIdx} value={city}>
@@ -73,9 +82,9 @@ export default function HUIAsyncComboBox({
                     </HUIComboBoxOption>
                   ))}
                 </HUIComboBoxOptions>
-              ) : null}
-            </>
-          ) : null}
+              ) : null
+            ) : null}
+          </>
         </HUIComboBox>
       </cities.Form>
       <ChakraForm action={"/weather/forecast"} method={"GET"} ml={"2"}>
