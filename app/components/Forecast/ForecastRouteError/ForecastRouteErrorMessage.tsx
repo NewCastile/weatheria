@@ -5,7 +5,7 @@ const ForecastRouteErrorMessage = ({ message, data }: { message?: string; data: 
 
   return (
     <Text
-      color={"whiteAlpha.100"}
+      color={"accent"}
       fontSize={isSmallerThan500 ? "lg" : "3xl"}
       fontWeight={"bold"}
       textAlign={"center"}

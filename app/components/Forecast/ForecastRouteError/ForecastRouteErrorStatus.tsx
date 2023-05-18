@@ -16,7 +16,7 @@ const ForecastRouteErrorStatus = ({ status }: { status: number }) => {
       textAlign={"center"}
       w={"full"}
     >
-      {status}
+      Error {status}
     </Text>
   );
 };
