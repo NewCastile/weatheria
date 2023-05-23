@@ -5,7 +5,7 @@ import { forwardRef } from "react";
 
 const { Options: HUIOptions } = HUIComboBox;
 
-const ForwardedHUIComboBoxOptions = forwardRef<HTMLUListElement, ComboboxOptionsProps<"ul">>(
+const ForwardedHUIComboBoxOptions = forwardRef<HTMLUListElement, ComboboxOptionsProps<"div">>(
   ({ children, ...props }, ref) => {
     return (
       <HUIOptions ref={ref} {...props}>
