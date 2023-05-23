@@ -71,13 +71,12 @@ export default function Weather() {
         bgColor={"transparent"}
         h={"full"}
         justifyContent={"center"}
-        minW={"180px"}
         pb={"8"}
         pt={{ base: "24", md: "0" }}
         px={{ base: "2", sm: "10" }}
         w={{ base: "full", lg: "50%" }}
       >
-        <VStack justifyContent={"center"} minW={"180px"} spacing={"6"} w={"full"} zIndex={"modal"}>
+        <VStack justifyContent={"center"} spacing={"6"} w={"full"} zIndex={"modal"}>
           <VStack color={"white"} spacing={"-0.5"}>
             <Text
               as={"h1"}

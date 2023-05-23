@@ -22,7 +22,6 @@ const ForecastRouteErrorContainer = ({
       h={"full"}
       isLoading={navigation.state !== "idle"}
       justifyContent={"center"}
-      minW={"180px"}
       px={"10"}
       w={{ base: "full", lg: "50%" }}
     >

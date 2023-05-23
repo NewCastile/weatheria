@@ -65,22 +65,24 @@ export default function HUIAsyncComboBox({
           <>
             {cities.data ? (
               cities.data.error ? null : cities.data.length ? (
-                <HUIComboBoxOptions listStyleType={"none"} w={{ base: "max-content", sm: "full" }}>
-                  {cities.data.map((city: ISuggestion, cityIdx: number) => (
-                    <HUIComboBoxOption key={cityIdx} value={city}>
-                      {({ active }) => (
-                        <VStack spacing={"0"} {...getComboBoxItemStyles(active)}>
-                          <Text as={"strong"} lineHeight={"5"}>
-                            {city.name},{" "}
-                          </Text>
-                          <Text as={"span"} lineHeight={"5"}>
-                            {city.country}
-                          </Text>
-                          <Text alignSelf={"self-start"}>{city.state}</Text>
-                        </VStack>
-                      )}
-                    </HUIComboBoxOption>
-                  ))}
+                <HUIComboBoxOptions w={{ base: "max-content", sm: "full" }}>
+                  <VStack as={"ul"} listStyleType={"none"} py={"2"} spacing={"2"} w={"full"}>
+                    {cities.data.map((city: ISuggestion, cityIdx: number) => (
+                      <HUIComboBoxOption key={cityIdx} value={city}>
+                        {({ active }) => (
+                          <VStack spacing={"0"} {...getComboBoxItemStyles(active)}>
+                            <Text as={"strong"} lineHeight={"5"}>
+                              {city.name},{" "}
+                            </Text>
+                            <Text as={"span"} lineHeight={"5"}>
+                              {city.country}
+                            </Text>
+                            <Text alignSelf={"self-start"}>{city.state}</Text>
+                          </VStack>
+                        )}
+                      </HUIComboBoxOption>
+                    ))}
+                  </VStack>
                 </HUIComboBoxOptions>
               ) : null
             ) : null}

@@ -10,14 +10,10 @@ const ComboBoxItemDefaultStyles: ChakraProps = {
   justifyContent: "center",
   pl: "4",
   w: "full",
-  _hover: {
-    borderLeftWidth: "0.3rem",
-    borderLeftColor: "gray.600",
-    fontSize: "1.1rem",
-  },
+  fontSize: "1.1rem",
 };
 
-const ComboBoxItemHighlightedStyles: ChakraProps = {
+const ComboBoxItemActiveStyles: ChakraProps = {
   borderLeftWidth: "0.3rem",
   borderLeftColor: "cyan.300",
   paddingLeft: "0.6rem",
@@ -25,7 +21,7 @@ const ComboBoxItemHighlightedStyles: ChakraProps = {
 
 const getComboBoxItemStyles = (isActive: boolean): ChakraProps => {
   return isActive
-    ? Object.assign({}, ComboBoxItemDefaultStyles, ComboBoxItemHighlightedStyles)
+    ? Object.assign({}, ComboBoxItemDefaultStyles, ComboBoxItemActiveStyles)
     : ComboBoxItemDefaultStyles;
 };
 

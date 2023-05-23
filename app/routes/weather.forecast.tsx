@@ -70,8 +70,6 @@ export function ErrorBoundary() {
   const error = useRouteError();
 
   if (isRouteErrorResponse(error)) {
-    console.log(error.status);
-
     return (
       <ForecastRouteErrorContainer>
         <VStack justifyContent={"center"} minW={"250px"} spacing={"6"} w={"full"} zIndex={"modal"}>
@@ -140,8 +138,7 @@ export default function Forecast() {
       bgColor={{ base: "transparent", lg: "secondary" }}
       className={"forecast"}
       h={{ base: "max-content", lg: "full" }}
-      justifyContent={{ base: "start", sm: "center", xl: "center" }}
-      minW={"180px"}
+      justifyContent={"center"}
       pb={"8"}
       pt={{ base: "24", lg: "0" }}
       px={"10"}
