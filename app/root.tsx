@@ -1,33 +1,34 @@
-import type { MetaFunction } from "remix";
-
-import React, { createContext, useState } from "react";
+import { ChakraProvider, Heading, Text, VStack } from "@chakra-ui/react";
+import { withEmotionCache } from "@emotion/react";
+import { LinksFunction } from "@remix-run/node";
 import {
   Links,
-  LinksFunction,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
-} from "remix";
-import { VStack, Heading, Text, ChakraProvider } from "@chakra-ui/react";
-import { withEmotionCache } from "@emotion/react";
+  V2_MetaFunction,
+  isRouteErrorResponse,
+  useRouteError,
+} from "@remix-run/react";
+import React, { createContext, useState } from "react";
 
 import styles from "../styles/app.css";
 
-import { ServerStyleContext, ClientStyleContext } from "./context";
-import { IWeatherThemeContextProps } from "./types";
+import { ClientStyleContext, ServerStyleContext } from "./context";
 import { defaultTheme } from "./themes";
+import { DocumentProps, IWeatherThemeContextProps } from "./types";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
-export const meta: MetaFunction = () => {
-  return { title: "Weatheria" };
+export const meta: V2_MetaFunction = () => {
+  return [{ title: "Weatheria" }];
 };
 
 export const WeatherThemeContext = createContext<IWeatherThemeContextProps>({
   theme: defaultTheme,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setTheme: () => {},
 } as IWeatherThemeContextProps);
 
@@ -48,51 +49,36 @@ export default function App() {
   );
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
-  return (
-    <Document>
-      <VStack h="100vh" justify="center">
-        <Heading>There was an error</Heading>
-        <Text>{error.message}</Text>
-        <hr />
-        <Text>Hey, developer, you should replace this with what you want your users to see.</Text>
-      </VStack>
-    </Document>
-  );
-}
-
-export function CatchBoundary() {
-  let caught = useCatch();
+export function ErrorBoundary() {
+  const error = useRouteError();
   let message;
 
-  switch (caught.status) {
-    case 401:
-      message = (
-        <Text>Oops! Looks like you tried to visit a page that you do not have access to.</Text>
-      );
-      break;
-    case 404:
-      message = <Text>Oops! Looks like you tried to visit a page that does not exist.</Text>;
-      break;
+  if (isRouteErrorResponse(error)) {
+    switch (error.status) {
+      case 401:
+        message = (
+          <Text>Oops! Looks like you tried to visit a page that you do not have access to.</Text>
+        );
+        break;
+      case 404:
+        message = <Text>Oops! Looks like you tried to visit a page that does not exist.</Text>;
+        break;
 
-    default:
-      throw new Error(caught.data || caught.statusText);
+      default:
+        message = <Text>{error.error?.message}</Text>;
+    }
+
+    return (
+      <Document>
+        <VStack h="100vh" justify="center">
+          <Heading>
+            {error.status}: {error.statusText}
+          </Heading>
+          {message}
+        </VStack>
+      </Document>
+    );
   }
-
-  return (
-    <Document>
-      <VStack h="100vh" justify="center">
-        <Heading>
-          {caught.status}: {caught.statusText}
-        </Heading>
-        {message}
-      </VStack>
-    </Document>
-  );
-}
-
-interface DocumentProps {
-  children: React.ReactNode;
 }
 
 const Document = withEmotionCache(({ children }: DocumentProps, emotionCache) => {
@@ -129,8 +115,8 @@ const Document = withEmotionCache(({ children }: DocumentProps, emotionCache) =>
         <Links />
         {serverSyleData?.map(({ key, ids, css }) => (
           <style
-            key={key}
             dangerouslySetInnerHTML={{ __html: css }}
+            key={key}
             data-emotion={`${key} ${ids.join(" ")}`}
           />
         ))}

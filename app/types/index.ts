@@ -1,4 +1,4 @@
-import { SetStateAction, Dispatch } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 export interface IForecastLoaderData {
   weather: IForecast;
@@ -8,7 +8,7 @@ export interface IForecastLoaderData {
 export interface ISuggestion {
   name: string;
   country: string;
-  state: string;
+  state?: string;
 }
 
 export interface IWeatherThemeContextProps {
@@ -83,4 +83,8 @@ export interface IWind {
   speed: number;
   deg: number;
   gust: number;
+}
+
+export interface DocumentProps {
+  children: React.ReactNode;
 }

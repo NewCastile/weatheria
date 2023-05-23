@@ -1,9 +1,9 @@
-import { chakra, ChakraProps } from "@chakra-ui/react";
+import { BoxProps, chakra } from "@chakra-ui/react";
 import { isValidMotionProp, motion } from "framer-motion";
 import { useContext } from "react";
 
-import { WeatherThemeContext } from "~/root";
-import { defaultTheme } from "~/themes";
+import { WeatherThemeContext } from "../../root";
+import { defaultTheme } from "../../themes";
 
 const MotionBox = chakra(motion.div, {
   shouldForwardProp: (prop) => isValidMotionProp(prop) || prop === "children",
@@ -14,7 +14,7 @@ const WeatherBox: React.FC<
     endColorToken: string;
     isLoading: boolean;
     style?: React.CSSProperties;
-  } & ChakraProps
+  } & BoxProps
 > = ({ isLoading, endColorToken, style, children, ...props }) => {
   const { theme: currentTheme } = useContext(WeatherThemeContext);
   const variants = {

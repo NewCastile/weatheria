@@ -1,6 +1,6 @@
 import { Grid, GridItem, Skeleton } from "@chakra-ui/react";
 
-import { IForecast } from "~/types";
+import { IForecast } from "../../types";
 
 import ForecastFirstHour from "./ForecastFirstHour";
 import ForecastNextHour from "./ForecastNextHour";

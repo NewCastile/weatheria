@@ -1,20 +1,20 @@
-import { Outlet, useMatches, useTransition } from "@remix-run/react";
-import { VStack, useMediaQuery, Stack, Fade, Text } from "@chakra-ui/react";
+import { Fade, Stack, Text, VStack, useMediaQuery } from "@chakra-ui/react";
+import { Outlet, useMatches, useNavigation } from "@remix-run/react";
 import { useContext, useEffect, useState } from "react";
 
-import { IForecastLoaderData } from "~/types";
-import ComboBox from "~/components/ComboBox";
-import WeatherBadge from "~/components/Weather/WeatherBadge";
-import MapIcon from "~/components/Icons/MapIcon";
-import { defaultTheme } from "~/themes";
-import { WeatherThemeContext } from "~/root";
+import HUIAsyncComboBox from "../components/HUIComboBox";
+import MapIcon from "../components/Icons/MapIcon";
+import WeatherBadge from "../components/Weather/WeatherBadge";
+import { WeatherThemeContext } from "../root";
+import { defaultTheme } from "../themes";
+import { IForecastLoaderData } from "../types";
 
 export function ErrorBoundary() {
   return null;
 }
 
 export default function Weather() {
-  const transition = useTransition();
+  const navigation = useNavigation();
   const matches = useMatches();
   const [__, base, child] = matches;
   const { theme: currentTheme, setTheme: setCurrentTheme } = useContext(WeatherThemeContext);
@@ -23,12 +23,6 @@ export default function Weather() {
   const onHomePage = base.pathname.replace(/\//g, "").match(child.pathname.replace(/\//g, ""));
 
   useEffect(() => {
-    if (onHomePage) {
-      setBadgeContent("hello c:");
-      setCurrentTheme(defaultTheme);
-
-      return;
-    }
     try {
       const {
         weather: { city },
@@ -41,7 +35,7 @@ export default function Weather() {
 
       return;
     }
-  }, [matches]);
+  }, [child.data, matches, setCurrentTheme]);
 
   return (
     <Stack
@@ -60,9 +54,9 @@ export default function Weather() {
       minH={"full"}
       spacing={0}
     >
-      <WeatherBadge isLoading={transition.state !== "idle"}>
+      <WeatherBadge isLoading={navigation.state !== "idle"}>
         <MapIcon />
-        <Fade in={transition.state === "idle"}>
+        <Fade in={navigation.state === "idle"}>
           <Text
             as={"small"}
             color={"black"}
@@ -90,7 +84,10 @@ export default function Weather() {
         spacing={0}
         w={"50%"}
       >
-        <ComboBox isSubmitting={transition.state !== "idle"} />
+        <HUIAsyncComboBox
+          endColorToken={"accent"}
+          isSubmitting={navigation.state === "submitting"}
+        />
       </VStack>
       <Outlet />
     </Stack>
